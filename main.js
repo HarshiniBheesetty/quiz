@@ -22,9 +22,25 @@ function load_question(){
     const options = document.querySelector("#options");
     options.innerHTML = "";
     for(const option of questions[question_number].options){
-        options.innerHTML = options.innerHTML + option;
+        options.innerHTML = options.innerHTML + `<button class="option">${option}</button>`;
     }
 
-
-
+    document.querySelectorAll(".option").forEach(option =>{
+        option.onclick = () =>{
+            let correct_ans = questions[question_number].answer;
+            let entered_answer = option.textContent;
+            if(correct_ans === Number(entered_answer)){
+             question_number++;
+             correct++;
+             document.querySelector("span").innerHTML = `${correct} of ${question_number}`;
+             load_question();
+            }
+            else{
+                document.querySelector("#question").innerHTML = "GAME OVER!"
+                options.innerHTML = "";
+                question_number++
+                document.querySelector("span").innerHTML = `${correct} of ${question_number}`
+            }
+        }
+    })
 }
